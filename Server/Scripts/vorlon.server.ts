@@ -278,16 +278,18 @@ export module VORLON {
                     }
                 }
 
-                vorlonpluginfiles = vorlonpluginfiles.replace('"vorlon/plugins"', '"' + this.httpConfig.protocol + '://' + req.headers.host + baseUrl + '/vorlon/plugins"');
+                var protocolScheme = "https"
+
+                vorlonpluginfiles = vorlonpluginfiles.replace('"vorlon/plugins"', '"' + protocolScheme + '://' + req.headers.host + baseUrl + '/vorlon/plugins"');
                 javascriptFile += "\r" + vorlonpluginfiles;
 
                 javascriptFile += "if (((typeof window != 'undefined' && window.module) || (typeof module != 'undefined')) && typeof module.exports != 'undefined') {\r\n";
                 javascriptFile += "module.exports = VORLON;};\r\n"; 
                 
-                var startUrl = this.httpConfig.protocol + "://" + req.headers.host;
+                var startUrl = protocolScheme + "://" + req.headers.host;
                 if(baseUrl) {
                     var splittedBaseUrl = baseUrl.split('//');
-                    startUrl = splittedBaseUrl[splittedBaseUrl.length - 1] === this.httpConfig.protocol ? baseUrl : startUrl + baseUrl;
+                    startUrl = splittedBaseUrl[splittedBaseUrl.length - 1] === protocolScheme ? baseUrl : startUrl + baseUrl;
                 }
                 
                 if (autostart) {
